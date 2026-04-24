@@ -16,6 +16,8 @@ class User(Base):
 
     role: Mapped[RoleEnum] = mapped_column(Enum(RoleEnum), default=RoleEnum.USER)
 
+    last_login: Mapped[datetime | None] = mapped_column(DateTime(timezone=True))
+
     cash_accounts = relationship('CashAccount', backref='user', cascade='all, delete-orphan', lazy='selectin')
 
     @property
