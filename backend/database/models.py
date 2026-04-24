@@ -1,4 +1,4 @@
-from sqlalchemy import ForeignKey, func, DateTime, Enum, Float
+from sqlalchemy import ForeignKey, func, DateTime, Enum, Float, String
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 from datetime import datetime
 
@@ -11,7 +11,7 @@ class User(Base):
     name: Mapped[str]
     patronymic: Mapped[str | None]
 
-    email: Mapped[str]
+    email: Mapped[str] = mapped_column(String, unique=True)
     password_hash: Mapped[str]
 
     role: Mapped[RoleEnum] = mapped_column(Enum(RoleEnum), default=RoleEnum.USER)
