@@ -10,3 +10,4 @@ python-dotenv
 asyncpg
 bcrypt==4.0.0
 sqlalchemy
+python-multipart

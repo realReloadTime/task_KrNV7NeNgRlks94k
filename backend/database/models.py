@@ -18,7 +18,7 @@ class User(Base):
 
     last_login: Mapped[datetime | None] = mapped_column(DateTime(timezone=True))
 
-    cash_accounts = relationship('CashAccount', backref='user', cascade='all, delete-orphan', lazy='selectin')
+    cash_accounts = relationship('CashAccount', back_populates='user', cascade='all, delete-orphan', lazy='selectin')
 
     @property
     def full_name(self) -> str:
@@ -31,8 +31,8 @@ class CashAccount(Base):
     user_id: Mapped[int] = mapped_column(ForeignKey('users.id'))
     balance: Mapped[float] = mapped_column(Float, default=0)
 
-    user = relationship('User', backref='cash_accounts', uselist=False)
-    transactions = relationship('TransactionHistory', backref='cash_account', cascade='all, delete-orphan',
+    user = relationship('User', back_populates='cash_accounts', uselist=False)
+    transactions = relationship('TransactionHistory', back_populates='cash_account', cascade='all, delete-orphan',
                                 lazy='selectin')
 
 
@@ -45,4 +45,4 @@ class TransactionHistory(Base):
     amount: Mapped[Float] = mapped_column(Float, default=0)
     created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=func.now())
 
-    cash_account = relationship('CashAccount', backref='transactions', uselist=False)
+    cash_account = relationship('CashAccount', back_populates='transactions', uselist=False)

@@ -1,4 +1,4 @@
-from datetime import datetime, date
+from datetime import datetime
 from pydantic import BaseModel, ConfigDict, EmailStr, field_validator
 
 from backend.database.enums import RoleEnum
@@ -41,9 +41,17 @@ class UserUpdate(BaseModel):
     model_config = ConfigDict(from_attributes=True)
 
 
-class UserGet(UserCreate):
+class UserGet(BaseModel):
     id: int
     full_name: str
 
+    email: EmailStr
+
+    surname: str
+    name: str
+    patronymic: str | None = None
+
     role: RoleEnum
     last_login: datetime | None = None
+
+    model_config = ConfigDict(from_attributes=True)

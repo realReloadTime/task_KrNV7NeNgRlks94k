@@ -4,6 +4,8 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import RedirectResponse
 
+from backend.controllers.user import router as user_router
+
 app = FastAPI(title="Task API v1")
 
 app.add_middleware(
@@ -14,6 +16,7 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+app.include_router(user_router)
 
 @app.get('/', status_code=200)
 async def root():
