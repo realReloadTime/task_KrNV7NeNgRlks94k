@@ -77,8 +77,15 @@ async def get_me(current_user=Depends(require_current_user)):
     return UserGet.model_validate(current_user)
 
 
+@router.get("/", response_model=list[UserGet])
 @require_roles([RoleEnum.ADMIN])
+async def get_users(current_user=Depends(require_current_user),
+                    service: UserService = Depends(get_user_service)):
+    return await service.get_all()
+
+
 @router.post("/", status_code=status.HTTP_201_CREATED, response_model=UserGet)
+@require_roles([RoleEnum.ADMIN])
 async def create_user(
         user_data: UserRegister,
         current_user=Depends(require_current_user),
@@ -102,8 +109,8 @@ async def create_user(
         )
 
 
-@require_roles([RoleEnum.ADMIN])
 @router.put("/{user_id}", response_model=UserGet)
+@require_roles([RoleEnum.ADMIN])
 async def update_user(
         user_id: int,
         user_data: UserUpdate,
@@ -119,8 +126,8 @@ async def update_user(
         raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail=str(error))
 
 
-@require_roles([RoleEnum.ADMIN])
 @router.delete("/{user_id}", status_code=status.HTTP_204_NO_CONTENT)
+@require_roles([RoleEnum.ADMIN])
 async def delete_user(
         user_id: int,
         current_user=Depends(require_current_user),
