@@ -14,6 +14,7 @@ class TransactionHistoryCreate(BaseModel):
 
 class TransactionHistoryGet(TransactionHistoryCreate):
     id: int
+    account_user_id: int
 
     created_at: datetime
 

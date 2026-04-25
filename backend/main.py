@@ -6,6 +6,7 @@ from fastapi.responses import RedirectResponse
 
 from backend.controllers.user import router as user_router
 from backend.controllers.cash_account import router as cash_account_router
+from backend.controllers.transaction_history import router as transaction_history_router
 
 app = FastAPI(title="Task API v1")
 
@@ -19,6 +20,7 @@ app.add_middleware(
 
 app.include_router(user_router)
 app.include_router(cash_account_router)
+app.include_router(transaction_history_router)
 
 @app.get('/', status_code=200)
 async def root():

@@ -29,7 +29,7 @@ async def get_my_cash_accounts(
     return await service.get_cash_accounts_by_user_id(current_user.id)
 
 
-@router.get("/{user_id}", response_model=list[CashAccountGet])
+@router.get("/by-user/{user_id}", response_model=list[CashAccountGet])
 @require_roles([RoleEnum.ADMIN])
 async def get_cash_accounts_by_user_id(
         user_id: int,

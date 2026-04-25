@@ -1,4 +1,5 @@
 from sqlalchemy import ForeignKey, func, DateTime, Enum, Float, String
+from sqlalchemy.ext.associationproxy import association_proxy
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 from datetime import datetime
 
@@ -49,3 +50,5 @@ class TransactionHistory(Base):
     created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=func.now())
 
     cash_account = relationship('CashAccount', back_populates='transactions', uselist=False, lazy='selectin')
+
+    account_user_id = association_proxy('cash_account', 'user_id')
