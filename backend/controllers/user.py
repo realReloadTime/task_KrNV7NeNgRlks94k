@@ -10,7 +10,7 @@ from backend.security.authorization import require_current_user, refresh_token_s
 from backend.services.user import get_user_service, UserService
 from backend.security.auth_service import AuthService, get_auth_service
 
-router = APIRouter(prefix="/users", tags=["user"])
+router = APIRouter(prefix="/users", tags=["User"])
 
 
 @router.post("/register", status_code=status.HTTP_201_CREATED, response_model=UserGet)

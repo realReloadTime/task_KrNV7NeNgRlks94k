@@ -13,6 +13,12 @@ class CashAccountService:
         return list(map(CashAccountGet.model_validate,
                         await self.cash_account_repository.get_by_fields_values([('user_id', user_id)])))
 
+    async def get_cash_account_by_id(self, account_id: int) -> CashAccountGet | None:
+        account = await self.cash_account_repository.get(account_id)
+        if account is not None:
+            return CashAccountGet.model_validate(account)
+        return None
+
     async def update_cash_account(self, account_id: int, data: CashAccountUpdate) -> CashAccountGet:
         account = await self.cash_account_repository.get(account_id)
         if account is None:

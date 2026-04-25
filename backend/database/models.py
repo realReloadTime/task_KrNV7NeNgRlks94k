@@ -29,11 +29,14 @@ class CashAccount(Base):
     __tablename__ = 'cash_accounts'
 
     user_id: Mapped[int] = mapped_column(ForeignKey('users.id'))
-    balance: Mapped[float] = mapped_column(Float, default=0)
 
     user = relationship('User', back_populates='cash_accounts', uselist=False)
     transactions = relationship('TransactionHistory', back_populates='cash_account', cascade='all, delete-orphan',
                                 lazy='selectin')
+
+    @property
+    def balance(self) -> float:
+        return sum([transaction.amount for transaction in self.transactions]) if bool(self.transactions) else 0
 
 
 class TransactionHistory(Base):
@@ -45,4 +48,4 @@ class TransactionHistory(Base):
     amount: Mapped[Float] = mapped_column(Float, default=0)
     created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=func.now())
 
-    cash_account = relationship('CashAccount', back_populates='transactions', uselist=False)
+    cash_account = relationship('CashAccount', back_populates='transactions', uselist=False, lazy='selectin')
