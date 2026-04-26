@@ -51,7 +51,7 @@ class UserService:
         if 'email' in update_data and await self.user_repository.get_user_by_email(update_data['email']):
             raise AttributeError('Email already registered')
         updated_user = await self.user_repository.update(user_id, **update_data)
-        return await UserGet.model_validate(updated_user)
+        return UserGet.model_validate(updated_user)
 
     async def delete_user(self, user_id: int) -> bool:
         return await self.user_repository.delete(user_id)
